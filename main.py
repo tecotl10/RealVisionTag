@@ -4,7 +4,7 @@ import numpy as np
 
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
 
-cap = cv2.VideoCapture('FordGema.mp4')
+cap = cv2.VideoCapture('broncoGTBC.mp4')
 
 # Se obtienen las dimensiones del video y la tasa de frames por segundo (FPS)
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -12,7 +12,7 @@ frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 fps = cap.get(cv2.CAP_PROP_FPS)
 
 fourcc = cv2.VideoWriter_fourcc(*'mp4v') 
-out = cv2.VideoWriter('test_1.mp4', fourcc, fps, (frame_width, frame_height))
+out = cv2.VideoWriter('test_2.mp4', fourcc, fps, (frame_width, frame_height))
 
 interested_classes = [0, 2, 7]  # 0: 'person', 2: 'car', 7: 'truck'
 
@@ -24,7 +24,7 @@ while True:
     for det in results.xyxy[0]:
         classId = int(det[5])
         score = det[4].item()
-        if classId in interested_classes and score > 0.5:  # Solo si la confianza es mayor al 65%
+        if classId in interested_classes and score > 0.5:  
             box = det[:4].cpu().numpy().astype(int)
             label = 'car' if classId in [2, 7] else model.names[classId]
             label = f'{label} {score:.2f}'
